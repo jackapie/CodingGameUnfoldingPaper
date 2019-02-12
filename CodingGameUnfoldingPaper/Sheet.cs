@@ -8,11 +8,11 @@ namespace CodingGameUnfoldingPaper
 {
     public class Sheet
     {
-        public List<string> Pattern { get; set; }
+        public List<List<Char>> Pattern { get; set; }
 
         public void UnfoldDownToUp()
         {
-            var newLines = new List<string>(Pattern);
+            var newLines = new List<List<Char>>(Pattern);
             newLines.Reverse();
             Pattern = newLines.Concat(Pattern).ToList();
         }
@@ -23,9 +23,9 @@ namespace CodingGameUnfoldingPaper
             
             for (int i = 0; i < nOfLines; i++)
             {
-                char[] charArray = Pattern[i].ToCharArray();
+                char[] charArray = Pattern[i].ToArray();
                 Array.Reverse(charArray);
-                Pattern[i] = new string(charArray) + Pattern[i];
+                Pattern[i] = charArray.Concat(Pattern[i]).ToList();
                 
             }
         }

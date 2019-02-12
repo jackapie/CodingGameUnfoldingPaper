@@ -20,14 +20,17 @@ namespace CodingGameUnfoldingPaper.Tests
                 "###",
                 "#..",
                 "#.#"
-            };
+            }.Select(e => e.ToCharArray().ToList()).ToList();
 
             sheet.Unfold();
+            var line0 = new string(sheet.Pattern[0].ToArray());
+            var line5 = new string(sheet.Pattern[5].ToArray());
+            var line1 = new string(sheet.Pattern[1].ToArray());
 
             Assert.AreEqual(6, sheet.Pattern.Count);
-            Assert.AreEqual("#.##.#", sheet.Pattern[0]);
-            Assert.AreEqual("#.##.#", sheet.Pattern[5]);
-            Assert.AreEqual("..##..", sheet.Pattern[1]);
+            Assert.AreEqual("#.##.#", line0);
+            Assert.AreEqual("#.##.#", line5);
+            Assert.AreEqual("..##..", line1);
         }
 
         [TestMethod()]
@@ -37,13 +40,16 @@ namespace CodingGameUnfoldingPaper.Tests
             sheet.Pattern = new List<string>()
             {
                 "###",
-            };
+            }.Select(e => e.ToList()).ToList();
 
             sheet.UnfoldDownToUp();
 
+            var line0 = new string(sheet.Pattern[0].ToArray());
+            var line1 = new string(sheet.Pattern[1].ToArray());
+
             Assert.AreEqual(2, sheet.Pattern.Count);
-            Assert.AreEqual("###", sheet.Pattern[0]);
-            Assert.AreEqual("###", sheet.Pattern[1]);
+            Assert.AreEqual("###", line0);
+            Assert.AreEqual("###", line1);
         }
 
         [TestMethod()]
@@ -53,12 +59,46 @@ namespace CodingGameUnfoldingPaper.Tests
             sheet.Pattern = new List<string>()
             {
                 "##.",
-            };
+            }.Select(e => e.ToCharArray().ToList()).ToList();
 
             sheet.UnfoldRightToLeft();
 
+            var line0 = new string(sheet.Pattern[0].ToArray());
+
             Assert.AreEqual(1, sheet.Pattern.Count);
-            Assert.AreEqual(".####.", sheet.Pattern[0]);
+            Assert.AreEqual(".####.", line0);
+        }
+
+        [TestMethod()]
+        public void UnfoldTest2()
+        {
+            var sheet = new Sheet();
+            sheet.Pattern = new List<string>()
+            {
+"############################################",
+"#..........................................#",
+"#..........................................#",
+"#..........................................#",
+"#..........................................#",
+"#..........................................#",
+"#..........................................#",
+"#..........................................#",
+"#..........................................#",
+"#..........................................#",
+"############################################"
+            }.Select(e => e.ToCharArray().ToList()).ToList();
+
+            for (int i = 0; i < 5; i++)
+            {
+                sheet.Unfold();
+            }
+
+            var pieceCounter = new PieceCounter();
+            pieceCounter.Sheet = sheet;
+            pieceCounter.CountPieces();
+
+
+
         }
     }
 }
