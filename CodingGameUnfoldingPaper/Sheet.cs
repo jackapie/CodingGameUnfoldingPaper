@@ -10,14 +10,24 @@ namespace CodingGameUnfoldingPaper
     {
         public List<string> Pattern { get; set; }
 
-        private void UnfoldDownToUp()
+        public void UnfoldDownToUp()
         {
-            throw new NotImplementedException();
+            var newLines = new List<string>(Pattern);
+            newLines.Reverse();
+            Pattern = newLines.Concat(Pattern).ToList();
         }
 
-        private void UnfoldRightToLeft()
+        public void UnfoldRightToLeft()
         {
-            throw new NotImplementedException();
+            var nOfLines = Pattern.Count;
+            
+            for (int i = 0; i < nOfLines; i++)
+            {
+                char[] charArray = Pattern[i].ToCharArray();
+                Array.Reverse(charArray);
+                Pattern[i] = new string(charArray) + Pattern[i];
+                
+            }
         }
 
         public void Unfold()
