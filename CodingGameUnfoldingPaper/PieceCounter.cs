@@ -12,37 +12,59 @@ namespace CodingGameUnfoldingPaper
 
         public Sheet Sheet { get; set; }
 
-        
-        private void CheckChar(List<List<Char>> pattern, int lineIndex, int charIndex)
-        {
-            var character = pattern[lineIndex][charIndex];
-            if (character == '#')
+
+        private void CheckChars(List<List<Char>> pattern, CharToCheck charToCheck, List<CharToCheck> charList)
+        {            
+            if (pattern[charToCheck.Y][charToCheck.X] == '#')
             {
-                pattern[lineIndex][charIndex] = '.';
-                CheckNeighbouringChars(pattern, lineIndex, charIndex);
+                pattern[charToCheck.Y][charToCheck.X] = '.';
+
+                AddNeighbours(pattern, charToCheck.Y, charToCheck.X, charList);
             }
         }
 
-        
 
-        private void CheckNeighbouringChars(List<List<Char>> pattern, int lineIndex, int charIndex)
+
+        private void AddNeighbours(List<List<Char>> pattern, int lineIndex, int charIndex, List<CharToCheck> charList)
         {
+
             if (charIndex + 1 < pattern[lineIndex].Count)
             {
-                CheckChar(pattern, lineIndex, charIndex + 1);
+                var charToCheck = new CharToCheck()
+                {
+                    Y = lineIndex,
+                    X = charIndex + 1
+                };
+                charList.Add(charToCheck);
             }
             if (lineIndex + 1 < pattern.Count)
             {
-                CheckChar(pattern, lineIndex + 1, charIndex);
+                var charToCheck = new CharToCheck()
+                {
+                    Y = lineIndex + 1,
+                    X = charIndex
+                };
+                charList.Add(charToCheck);
             }
             if (charIndex > 0)
             {
-                CheckChar(pattern, lineIndex, charIndex - 1);
+                var charToCheck = new CharToCheck()
+                {
+                    Y = lineIndex,
+                    X = charIndex - 1
+                };
+                charList.Add(charToCheck);
             }
             if (lineIndex > 0)
             {
-                CheckChar(pattern, lineIndex - 1, charIndex);
+                var charToCheck = new CharToCheck()
+                {
+                    Y = lineIndex - 1,
+                    X = charIndex
+                };
+                charList.Add(charToCheck);
             }
+
         }
 
 
@@ -50,11 +72,25 @@ namespace CodingGameUnfoldingPaper
         private void CheckInitialIsHash(List<List<Char>> pattern, int lineIndex, int charIndex)
         {
             var initialCharacter = pattern[lineIndex][charIndex];
+            var checkList = new List<CharToCheck>();
+            var charToCheck = new CharToCheck()
+            {
+                Y = lineIndex,
+                X = charIndex
+            };
             if (initialCharacter == '#')
             {
+                checkList.Add(charToCheck);
                 Counter += 1;
-                pattern[lineIndex][charIndex] = '.';
-                CheckNeighbouringChars(pattern, lineIndex, charIndex);
+            }
+            while(checkList.Count > 0)
+            {
+                var character = checkList.First();
+                checkList.Remove(character);
+                CheckChars(pattern, character, checkList);
+
+                
+                
             }
         }
 
