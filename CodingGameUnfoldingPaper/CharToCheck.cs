@@ -8,7 +8,7 @@ namespace CodingGameUnfoldingPaper
 {
     public class CharToCheck
     {
-        public int X { get; set; }
-        public int Y { get; set; } 
+        public int CharIndex { get; set; }
+        public int LineIndex { get; set; } 
     }
 }

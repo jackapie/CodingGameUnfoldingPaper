@@ -15,11 +15,11 @@ namespace CodingGameUnfoldingPaper
 
         private void CheckChars(CharToCheck charToCheck, List<CharToCheck> charList)
         {            
-            if (Sheet.Pattern[charToCheck.Y][charToCheck.X] == '#')
+            if (Sheet.Pattern[charToCheck.LineIndex][charToCheck.CharIndex] == '#')
             {
-                Sheet.Pattern[charToCheck.Y][charToCheck.X] = '.';
+                Sheet.Pattern[charToCheck.LineIndex][charToCheck.CharIndex] = '.';
 
-                AddNeighbours(charToCheck.Y, charToCheck.X, charList);
+                AddNeighbours(charToCheck.LineIndex, charToCheck.CharIndex, charList);
             }
         }
 
@@ -32,8 +32,8 @@ namespace CodingGameUnfoldingPaper
             {
                 var charToCheck = new CharToCheck()
                 {
-                    Y = lineIndex,
-                    X = charIndex + 1
+                    LineIndex = lineIndex,
+                    CharIndex = charIndex + 1
                 };
                 charList.Add(charToCheck);
             }
@@ -41,8 +41,8 @@ namespace CodingGameUnfoldingPaper
             {
                 var charToCheck = new CharToCheck()
                 {
-                    Y = lineIndex + 1,
-                    X = charIndex
+                    LineIndex = lineIndex + 1,
+                    CharIndex = charIndex
                 };
                 charList.Add(charToCheck);
             }
@@ -50,8 +50,8 @@ namespace CodingGameUnfoldingPaper
             {
                 var charToCheck = new CharToCheck()
                 {
-                    Y = lineIndex,
-                    X = charIndex - 1
+                    LineIndex = lineIndex,
+                    CharIndex = charIndex - 1
                 };
                 charList.Add(charToCheck);
             }
@@ -59,8 +59,8 @@ namespace CodingGameUnfoldingPaper
             {
                 var charToCheck = new CharToCheck()
                 {
-                    Y = lineIndex - 1,
-                    X = charIndex
+                    LineIndex = lineIndex - 1,
+                    CharIndex = charIndex
                 };
                 charList.Add(charToCheck);
             }
@@ -75,8 +75,8 @@ namespace CodingGameUnfoldingPaper
             var checkList = new List<CharToCheck>();
             var charToCheck = new CharToCheck()
             {
-                Y = lineIndex,
-                X = charIndex
+                LineIndex = lineIndex,
+                CharIndex = charIndex
             };
             if (initialCharacter == '#')
             {
