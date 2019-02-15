@@ -13,22 +13,22 @@ namespace CodingGameUnfoldingPaper
         public Sheet Sheet { get; set; }
 
 
-        private void CheckChars(List<List<Char>> pattern, CharToCheck charToCheck, List<CharToCheck> charList)
+        private void CheckChars(CharToCheck charToCheck, List<CharToCheck> charList)
         {            
-            if (pattern[charToCheck.Y][charToCheck.X] == '#')
+            if (Sheet.Pattern[charToCheck.Y][charToCheck.X] == '#')
             {
-                pattern[charToCheck.Y][charToCheck.X] = '.';
+                Sheet.Pattern[charToCheck.Y][charToCheck.X] = '.';
 
-                AddNeighbours(pattern, charToCheck.Y, charToCheck.X, charList);
+                AddNeighbours(charToCheck.Y, charToCheck.X, charList);
             }
         }
 
 
 
-        private void AddNeighbours(List<List<Char>> pattern, int lineIndex, int charIndex, List<CharToCheck> charList)
+        private void AddNeighbours(int lineIndex, int charIndex, List<CharToCheck> charList)
         {
 
-            if (charIndex + 1 < pattern[lineIndex].Count)
+            if (charIndex + 1 < Sheet.Pattern[lineIndex].Count)
             {
                 var charToCheck = new CharToCheck()
                 {
@@ -37,7 +37,7 @@ namespace CodingGameUnfoldingPaper
                 };
                 charList.Add(charToCheck);
             }
-            if (lineIndex + 1 < pattern.Count)
+            if (lineIndex + 1 < Sheet.Pattern.Count)
             {
                 var charToCheck = new CharToCheck()
                 {
@@ -69,9 +69,9 @@ namespace CodingGameUnfoldingPaper
 
 
 
-        private void CheckInitialIsHash(List<List<Char>> pattern, int lineIndex, int charIndex)
+        private void CheckInitialIsHash(int lineIndex, int charIndex)
         {
-            var initialCharacter = pattern[lineIndex][charIndex];
+            var initialCharacter = Sheet.Pattern[lineIndex][charIndex];
             var checkList = new List<CharToCheck>();
             var charToCheck = new CharToCheck()
             {
@@ -87,29 +87,27 @@ namespace CodingGameUnfoldingPaper
             {
                 var character = checkList.First();
                 checkList.Remove(character);
-                CheckChars(pattern, character, checkList);
-
-                
+                CheckChars(character, checkList);               
                 
             }
         }
 
-        private void LoopOverChars(List<List<Char>> pattern, int lineIndex)
+        private void LoopOverChars(int lineIndex)
         {
-            var nOfChars = pattern[lineIndex].Count;
+            var nOfChars = Sheet.Pattern[lineIndex].Count;
             for (int i = 0; i < nOfChars; i++)
             {
-                CheckInitialIsHash(pattern, lineIndex, i);
+                CheckInitialIsHash(lineIndex, i);
             }
         }
 
-        private void LoopOverLines(List<List<Char>> pattern)
+        private void LoopOverLines()
         {
-            var nOfLines = pattern.Count;
+            var nOfLines = Sheet.Pattern.Count;
 
             for (int i = 0; i < nOfLines; i++)
             {
-                LoopOverChars(pattern, i);
+                LoopOverChars(i);
             }
         }
 
@@ -117,8 +115,8 @@ namespace CodingGameUnfoldingPaper
 
         public void CountPieces()
         {
-            var pattern = Sheet.Pattern;
-            LoopOverLines(pattern);
+            
+            LoopOverLines();
         }
 
 
