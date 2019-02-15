@@ -12,20 +12,21 @@ namespace CodingGameUnfoldingPaper
 
         public Sheet Sheet { get; set; }
 
+        private List<CharToCheck> CharsToCheck { get; set; }
 
-        private void CheckChars(CharToCheck charToCheck, List<CharToCheck> charList)
+        private void CheckChars(CharToCheck charToCheck)
         {            
             if (Sheet.Pattern[charToCheck.LineIndex][charToCheck.CharIndex] == '#')
             {
                 Sheet.Pattern[charToCheck.LineIndex][charToCheck.CharIndex] = '.';
 
-                AddNeighbours(charToCheck.LineIndex, charToCheck.CharIndex, charList);
+                AddNeighbours(charToCheck.LineIndex, charToCheck.CharIndex);
             }
         }
 
 
 
-        private void AddNeighbours(int lineIndex, int charIndex, List<CharToCheck> charList)
+        private void AddNeighbours(int lineIndex, int charIndex)
         {
 
             if (charIndex + 1 < Sheet.Pattern[lineIndex].Count)
@@ -35,7 +36,7 @@ namespace CodingGameUnfoldingPaper
                     LineIndex = lineIndex,
                     CharIndex = charIndex + 1
                 };
-                charList.Add(charToCheck);
+                CharsToCheck.Add(charToCheck);
             }
             if (lineIndex + 1 < Sheet.Pattern.Count)
             {
@@ -44,7 +45,7 @@ namespace CodingGameUnfoldingPaper
                     LineIndex = lineIndex + 1,
                     CharIndex = charIndex
                 };
-                charList.Add(charToCheck);
+                CharsToCheck.Add(charToCheck);
             }
             if (charIndex > 0)
             {
@@ -53,7 +54,7 @@ namespace CodingGameUnfoldingPaper
                     LineIndex = lineIndex,
                     CharIndex = charIndex - 1
                 };
-                charList.Add(charToCheck);
+                CharsToCheck.Add(charToCheck);
             }
             if (lineIndex > 0)
             {
@@ -62,7 +63,7 @@ namespace CodingGameUnfoldingPaper
                     LineIndex = lineIndex - 1,
                     CharIndex = charIndex
                 };
-                charList.Add(charToCheck);
+                CharsToCheck.Add(charToCheck);
             }
 
         }
@@ -72,7 +73,7 @@ namespace CodingGameUnfoldingPaper
         private void CheckInitialIsHash(int lineIndex, int charIndex)
         {
             var initialCharacter = Sheet.Pattern[lineIndex][charIndex];
-            var checkList = new List<CharToCheck>();
+            
             var charToCheck = new CharToCheck()
             {
                 LineIndex = lineIndex,
@@ -80,14 +81,14 @@ namespace CodingGameUnfoldingPaper
             };
             if (initialCharacter == '#')
             {
-                checkList.Add(charToCheck);
+                CharsToCheck.Add(charToCheck);
                 Counter += 1;
             }
-            while(checkList.Count > 0)
+            while(CharsToCheck.Count > 0)
             {
-                var character = checkList.First();
-                checkList.Remove(character);
-                CheckChars(character, checkList);               
+                var character = CharsToCheck.First();
+                CharsToCheck.Remove(character);
+                CheckChars(character);               
                 
             }
         }
